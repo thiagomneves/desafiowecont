@@ -78,9 +78,11 @@ class InvoiceController extends Controller
     {
         $user = auth()->user();
 
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::find($id);
 
-        if ($user->id === $invoice->user_id) {
+        if (!$invoice) {
+            return response()->json(null, 404);
+        } elseif ($user->id === $invoice->user_id) {
             return response()->json($invoice, 200);
         } else {
             return response()->json(null, 401);
@@ -121,9 +123,11 @@ class InvoiceController extends Controller
 
 
         $user = auth()->user();
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::find($id);
 
-        if ($user->id === $invoice->user_id) {
+        if (!$invoice) {
+            return response()->json(null, 404);
+        } elseif ($user->id === $invoice->user_id) {
             $invoice->user_id = $user->id;
             $invoice->value = $request->value;
             $invoice->emission = $request->emission;
@@ -146,9 +150,11 @@ class InvoiceController extends Controller
     public function destroy($id)
     {
         $user = auth()->user();
-        $invoice = Invoice::findOrFail($id);
+        $invoice = Invoice::find($id);
 
-        if ($user->id === $invoice->user_id) {
+        if (!$invoice) {
+            return response()->json(null, 404);
+        } elseif ($user->id === $invoice->user_id) {
             $invoice->delete();
             return response()->json($invoice, 200);
         } else {
