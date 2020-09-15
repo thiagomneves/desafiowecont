@@ -23,6 +23,6 @@ Route::group(['middleware' => ['apiJwt']], function() {
     Route::post('auth/logout', 'Api\AuthController@logout');
     Route::post('auth/me', 'Api\AuthController@me');
 
-    Route::get('users', 'Api\UserController@index');
+//    Route::get('users', 'Api\UserController@index');
+    Route::resource('invoices', 'Api\InvoiceController');
 });
-
